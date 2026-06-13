@@ -27,23 +27,23 @@ export function DataTable({ data, title }: DataTableProps) {
           <CardTitle>{title}</CardTitle>
         </CardHeader>
       )}
-      <CardContent>
-        <div className="overflow-x-auto">
+      <CardContent className="p-3">
+        <div className="overflow-auto max-h-[400px] border border-pink-100/40 rounded-xl scrollbar-thin scrollbar-thumb-pink-200/60 scrollbar-track-transparent">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="border-b border-gray-200">
+              <tr className="border-b border-pink-100/50 sticky top-0 z-10">
                 {columns.map((column) => (
-                  <th key={column} className="text-left py-3 px-4 font-medium text-gray-700">
-                    {column.replace(/_/g, ' ').toUpperCase()}
+                  <th key={column} className="text-left py-3 px-4 font-semibold text-xs text-pink-700 bg-pink-50/95 backdrop-blur-sm uppercase tracking-wider">
+                    {column.replace(/_/g, ' ')}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {data.map((row, index) => (
-                <tr key={index} className="border-b border-gray-100 hover:bg-pink-50">
+                <tr key={index} className="border-b border-gray-100 last:border-0 hover:bg-pink-50/60 transition-colors">
                   {columns.map((column) => (
-                    <td key={column} className="py-3 px-4 text-gray-600">
+                    <td key={column} className="py-2.5 px-4 text-xs md:text-sm text-gray-600 whitespace-nowrap">
                       {formatValue(row[column])}
                     </td>
                   ))}
@@ -53,8 +53,9 @@ export function DataTable({ data, title }: DataTableProps) {
           </table>
         </div>
         
-        <div className="mt-4 text-sm text-gray-500">
-          Showing {data.length} row{data.length !== 1 ? 's' : ''}
+        <div className="mt-3 px-2 text-xs font-semibold text-pink-500 flex items-center justify-between">
+          <span>Showing {data.length} record{data.length !== 1 ? 's' : ''}</span>
+          <span className="text-gray-400 font-normal">Scroll horizontally/vertically to view all data</span>
         </div>
       </CardContent>
     </Card>

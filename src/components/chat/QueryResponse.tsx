@@ -161,7 +161,7 @@ export function QueryResponse({ query, isLatest }: QueryResponseProps) {
           <div 
             className={`transition-all duration-700 ease-out transform ${
               typingComplete 
-                ? 'opacity-100 translate-y-0 max-h-[3000px] mt-4 pt-4 border-t border-pink-50' 
+                ? 'opacity-100 translate-y-0 max-h-[8000px] mt-4 pt-4 border-t border-pink-50' 
                 : 'opacity-0 translate-y-4 max-h-0 overflow-hidden pointer-events-none'
             }`}
           >
