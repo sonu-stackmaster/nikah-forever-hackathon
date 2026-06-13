@@ -16,10 +16,75 @@ interface ChartRendererProps {
 export function ChartRenderer({ data, chartType, config, title }: ChartRendererProps) {
   if (!data || data.length === 0) return null
 
-  const getChartOption = () => {
+  // Smartly find the best columns for X and Y axes
+  const findChartKeys = () => {
     const columns = Object.keys(data[0])
-    const xAxisKey = columns[0]
-    const yAxisKey = columns[1]
+    
+    const metricKeywords = [
+      'amount', 'income', 'revenue', 'price', 'completeness', 'count', 
+      'total', 'sum', 'score', 'height', 'weight', 'age', 'value', 'credits'
+    ]
+
+    const categoryKeywords = [
+      'name', 'title', 'city', 'state', 'plan', 'month', 'date', 'day', 'year', 
+      'gender', 'sect', 'tongue', 'profession', 'status', 'created'
+    ]
+
+    let yAxisKey = ''
+    let xAxisKey = ''
+
+    // 1. Find the best Y-axis (must be numeric, prioritize matching metricKeywords)
+    const numericColumns = columns.filter(col => {
+      const colLower = col.toLowerCase()
+      if (colLower.includes('id') || colLower.includes('phone') || colLower.includes('mobile')) {
+        return false
+      }
+      return data.slice(0, 3).every(row => {
+        const val = row[col]
+        return val !== null && val !== undefined && !isNaN(Number(val))
+      })
+    })
+
+    if (numericColumns.length > 0) {
+      const sortedMetrics = [...numericColumns].sort((a, b) => {
+        const aMatch = metricKeywords.some(kw => a.toLowerCase().includes(kw))
+        const bMatch = metricKeywords.some(kw => b.toLowerCase().includes(kw))
+        if (aMatch && !bMatch) return -1
+        if (!aMatch && bMatch) return 1
+        return 0
+      })
+      yAxisKey = sortedMetrics[0]
+    }
+
+    // 2. Find the best X-axis (must be categorical/date/string, prioritize categoryKeywords)
+    const nonNumericColumns = columns.filter(col => col !== yAxisKey)
+    if (nonNumericColumns.length > 0) {
+      const sortedCategories = [...nonNumericColumns].sort((a, b) => {
+        const aMatch = categoryKeywords.some(kw => a.toLowerCase().includes(kw))
+        const bMatch = categoryKeywords.some(kw => b.toLowerCase().includes(kw))
+        if (aMatch && !bMatch) return -1
+        if (!aMatch && bMatch) return 1
+        
+        // Push long columns (like bio or email) to the end
+        const aLong = a.toLowerCase().includes('bio') || a.toLowerCase().includes('email')
+        const bLong = b.toLowerCase().includes('bio') || b.toLowerCase().includes('email')
+        if (aLong && !bLong) return 1
+        if (!aLong && bLong) return -1
+        return 0
+      })
+      xAxisKey = sortedCategories[0]
+    }
+
+    // Fallbacks
+    if (!xAxisKey) xAxisKey = columns[0]
+    if (!yAxisKey) yAxisKey = columns[1] || columns[0]
+
+    return { xAxisKey, yAxisKey }
+  }
+
+  const { xAxisKey, yAxisKey } = findChartKeys()
+
+  const getChartOption = () => {
 
     const baseOption = {
       grid: {
