@@ -3,9 +3,9 @@ import { Header } from '@/components/layout/Header'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen gradient-bg">
+    <div className="h-screen flex flex-col gradient-bg overflow-hidden">
       <Header />
-      <main className="container mx-auto px-4 py-8">
+      <main className="flex-1 overflow-hidden relative">
         <ChatInterface />
       </main>
     </div>

@@ -31,10 +31,10 @@ export function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-130px)] max-w-4xl mx-auto">
+    <div className="flex flex-col h-full max-w-4xl mx-auto px-4 py-6">
       {/* Header controls for active conversation */}
       {queries.length > 0 && (
-        <div className="flex justify-between items-center pb-4 border-b border-pink-100/60 mb-6">
+        <div className="flex-shrink-0 flex justify-between items-center pb-4 border-b border-pink-100/60 mb-4 animate-in fade-in slide-in-from-top-1 duration-300">
           <div className="flex items-center space-x-2">
             <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
             <span className="text-sm font-semibold text-gray-600">Active QueryGPT Session</span>
@@ -43,7 +43,7 @@ export function ChatInterface() {
             variant="ghost"
             size="sm"
             onClick={clearQueries}
-            className="text-gray-500 hover:text-red-500 hover:bg-red-50 h-8 flex items-center gap-1.5 rounded-lg"
+            className="text-gray-500 hover:text-red-500 hover:bg-red-50 h-8 flex items-center gap-1.5 rounded-lg transition-colors duration-200"
           >
             <Trash2 className="h-4 w-4" />
             Clear Chat
@@ -51,21 +51,27 @@ export function ChatInterface() {
         </div>
       )}
 
-      {/* Main viewport */}
-      <div className="flex-1 space-y-6 pb-28">
+      {/* Main scrollable viewport */}
+      <div className="flex-1 overflow-y-auto pr-1 space-y-6 scrollbar-thin scrollbar-thumb-pink-200 scrollbar-track-transparent">
         {queries.length === 0 ? (
-          <Hero onSelectExample={handleSelectExample} />
+          <div className="py-4">
+            <Hero onSelectExample={handleSelectExample} />
+          </div>
         ) : (
-          <div className="space-y-8">
-            {chronologicalQueries.map((query) => (
-              <QueryResponse key={query.id} query={query} />
+          <div className="space-y-8 pb-4">
+            {chronologicalQueries.map((query, index) => (
+              <QueryResponse 
+                key={query.id} 
+                query={query} 
+                isLatest={index === chronologicalQueries.length - 1}
+              />
             ))}
           </div>
         )}
 
         {isLoading && (
-          <div className="flex items-start space-x-3 w-full">
-            <div className="flex-shrink-0 p-2 bg-gradient-to-tr from-pink-500 to-rose-500 rounded-xl animate-pulse">
+          <div className="flex items-start space-x-3 w-full animate-in fade-in duration-300">
+            <div className="flex-shrink-0 p-2 bg-gradient-to-tr from-pink-500 to-rose-500 rounded-xl shadow-sm">
               <Brain className="h-5 w-5 text-white animate-bounce" />
             </div>
             <div className="flex-1 bg-white/80 border border-pink-100 rounded-2xl rounded-tl-sm p-5 shadow-sm space-y-3">
@@ -79,16 +85,12 @@ export function ChatInterface() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Fixed/Sticky Input Box at Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-pink-50 via-pink-50/95 to-transparent pt-8 pb-6 px-4 z-40">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-pink-100 shadow-xl p-3">
-            <QueryInput 
-              value={currentQuery}
-              onChange={setCurrentQuery}
-            />
-          </div>
-        </div>
+      {/* Anchor Input Box at Bottom */}
+      <div className="flex-shrink-0 mt-4 bg-white/95 backdrop-blur-md rounded-2xl border border-pink-100 shadow-xl p-3 hover:shadow-2xl transition-shadow duration-300">
+        <QueryInput 
+          value={currentQuery}
+          onChange={setCurrentQuery}
+        />
       </div>
     </div>
   )
