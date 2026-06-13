@@ -39,5 +39,15 @@ export const queryAPI = {
       console.error('Failed to fetch schema info:', error)
       return null
     }
+  },
+
+  async getDashboardData() {
+    try {
+      const response = await api.get('/api/dashboard')
+      return response.data
+    } catch (error) {
+      console.error('Failed to fetch dashboard data:', error)
+      return null
+    }
   }
 }
