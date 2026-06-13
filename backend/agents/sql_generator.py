@@ -45,6 +45,10 @@ Important Notes:
 5. Group and aggregate appropriately
 6. Use descriptive column aliases
 7. SQLite string comparisons are case-sensitive by default. ALWAYS use LOWER(column) = LOWER('value') or case-insensitive LIKE to match string filters (such as plan_name, city, gender, status) to prevent casing mismatches.
+8. DO NOT guess column names. Refer strictly to the provided "Relevant Schema". Note that:
+   - The `users` table has a `full_name` column (NOT `name`).
+   - The `users` table has `city` and `state` columns (NOT `location`).
+   - To filter or select a user's name, ALWAYS use the `full_name` column.
 
 For common metrics:
 - Revenue: SUM(amount_inr) FROM payments WHERE status='success'
