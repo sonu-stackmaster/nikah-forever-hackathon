@@ -47,20 +47,21 @@ class RAGEngine:
             
             # Simple keyword-based relevance scoring
             for table_name in self.schema_cache['tables']:
-                relevance_score = 0
+                # Set baseline score for core tables so they are always in the candidate schema list
+                relevance_score = 0.2 if table_name in ['users', 'subscriptions', 'plans'] else 0.0
                 
                 # Check if table name matches query
                 if table_name in query_lower:
                     relevance_score += 1.0
                 
-                # Check for business term matches
+                # Check for business term matches (expanded with Hinglish synonyms)
                 business_terms = {
-                    'users': ['user', 'member', 'person', 'profile'],
-                    'subscriptions': ['subscription', 'plan', 'premium', 'gold', 'silver'],
-                    'payments': ['payment', 'revenue', 'money', 'income', 'paid'],
-                    'matches': ['match', 'connection', 'couple'],
-                    'messages': ['message', 'chat', 'communication'],
-                    'support_tickets': ['support', 'ticket', 'help', 'issue']
+                    'users': ['user', 'member', 'person', 'profile', 'users', 'log', 'people', 'accounts', 'account', 'profiles', 'ladka', 'ladki', 'male', 'female', 'men', 'women', 'banda', 'bandi', 'registered', 'joined'],
+                    'subscriptions': ['subscription', 'plan', 'premium', 'gold', 'silver', 'membership', 'package', 'pack', 'subs', 'buyed', 'purchased', 'kharida', 'activate'],
+                    'payments': ['payment', 'revenue', 'money', 'income', 'paid', 'earning', 'sales', 'recharge', 'rupee', 'rs', 'inr', 'amount', 'paisa', 'kamai', 'transaction'],
+                    'matches': ['match', 'connection', 'couple', 'rishta', 'jodi', 'shadi', 'marriage', 'matches', 'matched'],
+                    'messages': ['message', 'chat', 'communication', 'msg', 'chatting', 'message', 'baat'],
+                    'support_tickets': ['support', 'ticket', 'help', 'issue', 'complaint', 'problem', 'customer care', 'helpdesk']
                 }
                 
                 if table_name in business_terms:

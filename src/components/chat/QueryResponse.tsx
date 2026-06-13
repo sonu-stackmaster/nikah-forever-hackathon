@@ -30,8 +30,11 @@ function Typewriter({ text, speed = 10, onComplete }: TypewriterProps) {
     setIsComplete(false)
 
     let index = 0
+    let currentText = ''
     const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + text.charAt(index))
+      const char = text.charAt(index)
+      currentText += char
+      setDisplayedText(currentText)
       index++
       if (index >= text.length) {
         clearInterval(interval)
