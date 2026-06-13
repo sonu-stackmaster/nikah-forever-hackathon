@@ -88,3 +88,7 @@ package-lock.json
 .vscode
 PROJECT_SUMMARY.md
 node_modules
+
+# Allow Next.js src/lib directory
+!src/lib/
+!src/lib/**/*
