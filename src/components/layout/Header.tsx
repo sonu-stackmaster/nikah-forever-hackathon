@@ -8,13 +8,15 @@ export function Header() {
     <header className="bg-white/80 backdrop-blur-md border-b border-pink-200 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="p-2 bg-gradient-to-r from-pink-500 to-rose-500 rounded-lg">
-              <Brain className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-800">QueryGPT</h1>
-              <p className="text-sm text-gray-600">NikahForever Analytics</p>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <img 
+              src="/logo.png" 
+              alt="NikahForever Logo" 
+              className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="border-l border-pink-200 pl-3">
+              <h1 className="text-base font-extrabold text-gray-800 tracking-tight leading-none">QueryGPT</h1>
+              <p className="text-[10px] font-bold text-pink-500 uppercase tracking-widest mt-0.5">Analytics</p>
             </div>
           </Link>
 

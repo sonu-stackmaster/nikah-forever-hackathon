@@ -16,9 +16,13 @@ export function Hero({ onSelectExample }: HeroProps) {
 
   return (
     <div className="text-center py-6 md:py-12">
-      <div className="flex justify-center mb-6">
-        <div className="p-4 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full shadow-md animate-pulse">
-          <Database className="h-10 w-10 text-white" />
+      <div className="flex justify-center mb-8">
+        <div className="p-5 bg-white/90 rounded-3xl shadow-md border border-pink-100/70 hover:shadow-lg transition-all duration-300">
+          <img 
+            src="/logo.png" 
+            alt="NikahForever Logo" 
+            className="h-16 w-auto object-contain"
+          />
         </div>
       </div>
       
