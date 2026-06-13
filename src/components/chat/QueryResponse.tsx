@@ -241,6 +241,7 @@ export function QueryResponse({ query, isLatest }: QueryResponseProps) {
             )}
           </div>
         </div>
+      </div>
       )}
     </div>
   )
