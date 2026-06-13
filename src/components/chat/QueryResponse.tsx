@@ -114,6 +114,7 @@ export function QueryResponse({ query, isLatest }: QueryResponseProps) {
 
   const hasData = query.result?.data && query.result.data.length > 0
   const isChatOnly = query.result?.visualization_type === 'chat'
+  const isPending = !query.result && !query.error
 
   // Get primary text content
   const mainText = query.result?.message || 
@@ -132,7 +133,8 @@ export function QueryResponse({ query, isLatest }: QueryResponseProps) {
       </div>
 
       {/* Assistant Bubble */}
-      <div className="flex items-start space-x-3 w-full">
+      {!isPending && (
+        <div className="flex items-start space-x-3 w-full animate-in fade-in duration-500">
         {/* Avatar */}
         <div className="flex-shrink-0 p-2 bg-gradient-to-tr from-pink-500 to-rose-500 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
           <Brain className="h-5 w-5 text-white" />
@@ -239,7 +241,7 @@ export function QueryResponse({ query, isLatest }: QueryResponseProps) {
             )}
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

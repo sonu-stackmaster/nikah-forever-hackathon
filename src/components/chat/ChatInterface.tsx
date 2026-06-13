@@ -8,6 +8,46 @@ import { useQueryStore } from '@/store/queryStore'
 import { Trash2, Brain } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+function ThinkingLoader() {
+  const [statusIndex, setStatusIndex] = useState(0)
+  const statuses = [
+    "Analyzing search intent...",
+    "Understanding database schema...",
+    "Formulating SQL query...",
+    "Executing database lookup...",
+    "Synthesizing platform insights..."
+  ]
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStatusIndex((prev) => (prev < statuses.length - 1 ? prev + 1 : prev))
+    }, 1500)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="flex items-start space-x-3 w-full animate-in fade-in duration-300 pb-4">
+      <div className="flex-shrink-0 p-2 bg-gradient-to-tr from-pink-500 to-rose-500 rounded-xl shadow-md animate-pulse">
+        <Brain className="h-5 w-5 text-white" />
+      </div>
+      <div className="flex-1 bg-white/85 backdrop-blur-sm border border-pink-100/80 rounded-2xl rounded-tl-sm p-4 shadow-md flex items-center space-x-4 max-w-sm">
+        <div className="relative flex h-3.5 w-3.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-pink-500"></span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-bold text-pink-600 animate-pulse truncate">
+            {statuses[statusIndex]}
+          </p>
+          <p className="text-[10px] text-gray-400 font-semibold mt-0.5 uppercase tracking-wider">
+            QueryGPT Thinking...
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function ChatInterface() {
   const { queries, isLoading, submitQuery, clearQueries } = useQueryStore()
   const [currentQuery, setCurrentQuery] = useState('')
@@ -72,18 +112,7 @@ export function ChatInterface() {
             </div>
           )}
 
-          {isLoading && (
-            <div className="flex items-start space-x-3 w-full animate-in fade-in duration-300 pb-4">
-              <div className="flex-shrink-0 p-2 bg-gradient-to-tr from-pink-500 to-rose-500 rounded-xl shadow-sm">
-                <Brain className="h-5 w-5 text-white animate-bounce" />
-              </div>
-              <div className="flex-1 bg-white/80 border border-pink-100 rounded-2xl rounded-tl-sm p-5 shadow-sm space-y-3">
-                <div className="h-4 bg-pink-100/80 rounded w-1/4 animate-pulse"></div>
-                <div className="h-3 bg-pink-50 rounded w-1/2 animate-pulse"></div>
-                <div className="h-3 bg-pink-50/50 rounded w-2/3 animate-pulse"></div>
-              </div>
-            </div>
-          )}
+          {isLoading && <ThinkingLoader />}
           
           <div ref={messagesEndRef} />
         </div>
