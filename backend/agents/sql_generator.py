@@ -51,6 +51,9 @@ Important Notes:
    - To filter or select a user's name, ALWAYS use the `full_name` column.
 9. For querying a specific person's details or info (e.g., "tell me about Anam", "who is Anam Baig"), ALWAYS perform a LEFT JOIN between `users` and `profiles` to fetch their complete details including bio, height, and photo count. Match using case-insensitive LIKE:
    `SELECT u.*, p.bio, p.height_cm, p.photo_count, p.profile_completeness_pct FROM users u LEFT JOIN profiles p ON u.user_id = p.user_id WHERE LOWER(u.full_name) LIKE '%name%'`
+10. Note on Subscription Plans:
+    - The platform has 3 paid/premium subscription plans: 'Silver', 'Gold', and 'Platinum'. There is no plan called 'premium' in the database.
+    - When the user asks about "premium plans" or "paid plans", filter using: `LOWER(p.plan_name) IN ('silver', 'gold', 'platinum')`.
 
 For common metrics:
 - Revenue: SUM(amount_inr) FROM payments WHERE status='success'
