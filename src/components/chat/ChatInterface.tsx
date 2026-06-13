@@ -94,8 +94,12 @@ export function ChatInterface() {
       )}
 
       {/* Main scrollable viewport (Full width for scrollbar placement) */}
-      <div className="flex-1 overflow-y-auto space-y-6 scrollbar-thin scrollbar-thumb-pink-200/80 scrollbar-track-transparent">
-        <div className="max-w-4xl mx-auto px-6 h-full flex flex-col justify-between">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-200/80 scrollbar-track-transparent">
+        <div className={`max-w-4xl mx-auto px-6 flex flex-col ${
+          queries.length === 0 
+            ? 'h-full justify-center' 
+            : 'justify-start space-y-8 py-4'
+        }`}>
           {queries.length === 0 ? (
             <div className="py-2 flex-1 flex flex-col justify-center">
               <Hero onSelectExample={handleSelectExample} />
