@@ -49,6 +49,8 @@ Important Notes:
    - The `users` table has a `full_name` column (NOT `name`).
    - The `users` table has `city` and `state` columns (NOT `location`).
    - To filter or select a user's name, ALWAYS use the `full_name` column.
+9. For querying a specific person's details or info (e.g., "tell me about Anam", "who is Anam Baig"), ALWAYS perform a LEFT JOIN between `users` and `profiles` to fetch their complete details including bio, height, and photo count. Match using case-insensitive LIKE:
+   `SELECT u.*, p.bio, p.height_cm, p.photo_count, p.profile_completeness_pct FROM users u LEFT JOIN profiles p ON u.user_id = p.user_id WHERE LOWER(u.full_name) LIKE '%name%'`
 
 For common metrics:
 - Revenue: SUM(amount_inr) FROM payments WHERE status='success'
